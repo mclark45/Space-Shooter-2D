@@ -12,7 +12,8 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        transform.position = new Vector3(0, _topOfScreen, 0);
+        float randomX = Random.Range(-9.5f, 9.5f);
+        transform.position = new Vector3(randomX, _topOfScreen, 0);
     }
 
     void Update()
