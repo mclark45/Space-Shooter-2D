@@ -5,19 +5,21 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private int _speed;
+    private float _speed = 5.0f;
     [SerializeField]
-    private float _upperBoundary;
+    private float _upperBoundary = 0;
     [SerializeField]
-    private float _lowerBoundary;
+    private float _lowerBoundary = -3.8f;
     [SerializeField]
-    private float _leftBoundary;
+    private float _leftBoundary = -11.3f;
     [SerializeField]
-    private float _rightBoundary;
+    private float _rightBoundary = 11.3f;
     [SerializeField]
-    private float _fireRate;
+    private float _fireRate = 0.15f;
     [SerializeField]
-    private float _nextFire;
+    private float _nextFire = 0;
+    [SerializeField]
+    private int _lives = 3;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -61,8 +63,18 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        _nextFire = Time.time + _fireRate;
+    _nextFire = Time.time + _fireRate;
         var offSet = new Vector3(0, 0.8f, 0);
         Instantiate(_laserPrefab, transform.position + offSet, Quaternion.identity);
+    }
+
+    public void Damage()
+    {
+        _lives--;
+
+        if (_lives < 1)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
