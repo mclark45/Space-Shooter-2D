@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        transform.position = new Vector3(0, 0, 0);
+        transform.position = new Vector3(0, -.5f, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 
         if (_spawnManager == null)
@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
     _nextFire = Time.time + _fireRate;
-        var offSet = new Vector3(0, 0.8f, 0);
+        var offSet = new Vector3(0, 1.05f, 0);
         Instantiate(_laserPrefab, transform.position + offSet, Quaternion.identity);
     }
 
