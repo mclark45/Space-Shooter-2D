@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5.0f;
+    private float _speedMultiplyer = 2.0f;
     [SerializeField]
     private float _upperBoundary = 0;
     [SerializeField]
@@ -25,10 +26,16 @@ public class Player : MonoBehaviour
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShot;
+    [SerializeField]
+    private GameObject _playerShield;
+    [SerializeField]
+    private GameObject _player;
 
     private SpawnManager _spawnManager;
 
     private bool _isTripleShotActive = false;
+    private bool _isSpeedPowerUpActive = false;
+    private bool _isShieldPowerUpActive = false;
 
 
     void Start()
@@ -61,6 +68,7 @@ public class Player : MonoBehaviour
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
         transform.Translate(direction * _speed * Time.deltaTime);
+ 
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, _lowerBoundary, _upperBoundary), 0);
 
@@ -89,7 +97,16 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _lives--;
+        if (_isShieldPowerUpActive == true)
+        {
+            _isShieldPowerUpActive = false;
+            _playerShield.SetActive(false);
+            return;
+        }
+        else
+        {
+            _lives--;
+        }
 
         if (_lives < 1)
         {
@@ -104,9 +121,29 @@ public class Player : MonoBehaviour
         StartCoroutine(TripleShotTime());
     }
 
+    public void SpeedPowerUpActive()
+    {
+        _isSpeedPowerUpActive = true;
+        _speed *= _speedMultiplyer;
+        StartCoroutine(SpeedPowerUp());
+    }
+
+    public void ShieldPowerUpActive()
+    {
+        _isShieldPowerUpActive = true;
+        _playerShield.SetActive(true);
+    }
+
     IEnumerator TripleShotTime()
     {
         yield return new WaitForSeconds(5.0f);
         _isTripleShotActive = false;
+    }
+
+    IEnumerator SpeedPowerUp()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isSpeedPowerUpActive = false;
+        _speed /= _speedMultiplyer;
     }
 }
