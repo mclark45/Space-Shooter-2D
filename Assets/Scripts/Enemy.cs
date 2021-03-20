@@ -9,9 +9,12 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _topOfScreen = 7.0f;
 
+    private Player _player;
+
 
     void Start()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
         float randomX = Random.Range(-9.5f, 9.5f);
         transform.position = new Vector3(randomX, _topOfScreen, 0);
     }
@@ -27,7 +30,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -42,9 +44,14 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+
         if (other.gameObject.CompareTag("Laser"))
         {
             Destroy(other.gameObject);
+            if (_player != null)
+            {
+                _player.Score(Random.Range(5, 10));
+            }
             Destroy(this.gameObject);
         }
     }
