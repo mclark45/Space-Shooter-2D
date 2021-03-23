@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
                 yield return new WaitForSeconds(1.0f);
 
                 _gameOverText.gameObject.SetActive(false);
-                _restartText.gameObject.SetActive(false);
+               // _restartText.gameObject.SetActive(false);
                 yield return new WaitForSeconds(1.0f);
             }
         }

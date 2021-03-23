@@ -10,13 +10,23 @@ public class Enemy : MonoBehaviour
     private float _topOfScreen = 7.0f;
 
     private Player _player;
+    private Animator EnemyDestroyed;
 
 
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        if (_player == null)
+        {
+            Debug.LogError("Player is Null");
+        }
         float randomX = Random.Range(-9.5f, 9.5f);
         transform.position = new Vector3(randomX, _topOfScreen, 0);
+        EnemyDestroyed = GetComponent<Animator>();
+        if (EnemyDestroyed == null)
+        {
+            Debug.LogError("EnemyDestroyed is null");
+        }
     }
 
     void Update()
@@ -40,8 +50,9 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
-
-            Destroy(this.gameObject);
+            EnemyDestroyed.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0;
+            Destroy(this.gameObject, 2.4f);
         }
 
 
@@ -52,7 +63,10 @@ public class Enemy : MonoBehaviour
             {
                 _player.Score(Random.Range(5, 10));
             }
-            Destroy(this.gameObject);
+            EnemyDestroyed.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0;
+            Destroy(this.gameObject, 2.4f);
+            
         }
     }
 }

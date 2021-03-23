@@ -31,6 +31,10 @@ public class Player : MonoBehaviour
     private GameObject _playerShield;
     [SerializeField]
     private int _score;
+    [SerializeField]
+    private GameObject _rightEngine;
+    [SerializeField]
+    private GameObject _leftEngine;
 
     private UIManager _uiManager;
 
@@ -114,6 +118,15 @@ public class Player : MonoBehaviour
         }
 
             _lives--;
+
+        if (_lives == 2)
+        {
+            _rightEngine.SetActive(true);
+        }
+        else if (_lives == 1)
+        {
+            _leftEngine.SetActive(true);
+        }
 
         _uiManager.UpdateLives(_lives);
 
