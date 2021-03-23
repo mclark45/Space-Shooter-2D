@@ -44,12 +44,22 @@ public class Player : MonoBehaviour
     private bool _isSpeedPowerUpActive = false;
     private bool _isShieldPowerUpActive = false;
 
+    [SerializeField]
+    private AudioClip _laserShot;
+    [SerializeField]
+    private AudioClip _explosionSoundEffect;
+    [SerializeField]
+    private AudioClip _powerupSoundEffect;
+
+    private AudioSource _playerSoundEffects;
+
 
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _playerSoundEffects = GetComponent<AudioSource>();
 
         if (_spawnManager == null)
         {
@@ -59,6 +69,11 @@ public class Player : MonoBehaviour
         if (_uiManager == null)
         {
             Debug.LogError("The UI Manager is Null");
+        }
+
+        if (_playerSoundEffects == null)
+        {
+            Debug.LogError("Audio Source is Null");
         }
     }
 
@@ -106,10 +121,16 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
         }
+
+        _playerSoundEffects.clip = _laserShot;
+
+        _playerSoundEffects.Play();
     }
 
     public void Damage()
     {
+        _playerSoundEffects.clip = _explosionSoundEffect;
+
         if (_isShieldPowerUpActive == true)
         {
             _isShieldPowerUpActive = false;
@@ -122,10 +143,14 @@ public class Player : MonoBehaviour
         if (_lives == 2)
         {
             _rightEngine.SetActive(true);
+
+            _playerSoundEffects.Play();
         }
         else if (_lives == 1)
         {
             _leftEngine.SetActive(true);
+
+            _playerSoundEffects.Play();
         }
 
         _uiManager.UpdateLives(_lives);
@@ -133,18 +158,25 @@ public class Player : MonoBehaviour
         if (_lives == 0)
         {
             _spawnManager.OnPlayerDeath();
-            Destroy(this.gameObject);
+            _speed = 0;
+            Destroy(this.gameObject, 1f);
+
+            _playerSoundEffects.Play();
         }
     }
 
     public void TripleShotActive()
     {
+        _playerSoundEffects.clip = _powerupSoundEffect;
+        _playerSoundEffects.Play();
         _isTripleShotActive = true;
         StartCoroutine(TripleShotTime());
     }
 
     public void SpeedPowerUpActive()
     {
+        _playerSoundEffects.clip = _powerupSoundEffect;
+        _playerSoundEffects.Play();
         _isSpeedPowerUpActive = true;
         _speed *= _speedMultiplyer;
         StartCoroutine(SpeedPowerUp());
@@ -152,6 +184,8 @@ public class Player : MonoBehaviour
 
     public void ShieldPowerUpActive()
     {
+        _playerSoundEffects.clip = _powerupSoundEffect;
+        _playerSoundEffects.Play();
         _isShieldPowerUpActive = true;
         _playerShield.SetActive(true);
     }

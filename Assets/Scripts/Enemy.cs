@@ -12,17 +12,29 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private Animator EnemyDestroyed;
 
+    private AudioSource _explosionSoundEffect;
+
 
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _explosionSoundEffect = GetComponent<AudioSource>();
+
         if (_player == null)
         {
             Debug.LogError("Player is Null");
         }
         float randomX = Random.Range(-9.5f, 9.5f);
+
+        if (_explosionSoundEffect == null)
+        {
+            Debug.LogError("Audio Source is null");
+        }
+
         transform.position = new Vector3(randomX, _topOfScreen, 0);
+
         EnemyDestroyed = GetComponent<Animator>();
+
         if (EnemyDestroyed == null)
         {
             Debug.LogError("EnemyDestroyed is null");
@@ -53,6 +65,7 @@ public class Enemy : MonoBehaviour
             EnemyDestroyed.SetTrigger("OnEnemyDeath");
             _enemySpeed = 0;
             Destroy(this.gameObject, 2.4f);
+            _explosionSoundEffect.Play();
         }
 
 
@@ -66,6 +79,7 @@ public class Enemy : MonoBehaviour
             EnemyDestroyed.SetTrigger("OnEnemyDeath");
             _enemySpeed = 0;
             Destroy(this.gameObject, 2.4f);
+            _explosionSoundEffect.Play();
             
         }
     }

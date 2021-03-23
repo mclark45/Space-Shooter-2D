@@ -6,15 +6,26 @@ public class Asteroid : MonoBehaviour
 {
     [SerializeField]
     private GameObject _explosion;
+
     private SpawnManager _spawnManager;
+
+    private AudioSource _explosionSoundEffect;
     void Start()
     {
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _explosionSoundEffect = GetComponent<AudioSource>();
+
         if (_spawnManager == null)
         {
             Debug.LogError("Spawn Manager is Null");
         }
+
+        if (_explosionSoundEffect == null)
+        {
+            Debug.LogError("Audio Source is Null");
+        }
         transform.position = new Vector3(0, 3.5f, 0);
+
     }
 
     // Update is called once per frame
@@ -32,6 +43,8 @@ public class Asteroid : MonoBehaviour
             Destroy(collision.gameObject);
             _spawnManager.StartSpawning();
             Destroy(this.gameObject, 0.25f);
+
+            _explosionSoundEffect.Play();
         }
     }
 }
