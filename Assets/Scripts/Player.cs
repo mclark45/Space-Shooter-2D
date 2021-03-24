@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     [SerializeField]
     private int _shieldLives = 3;
+    [SerializeField]
+    private int _ammoRemaining = 15;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -132,18 +134,25 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
          _nextFire = Time.time + _fireRate;
-        if (_isTripleShotActive == true)
+        if (_ammoRemaining > 0)
         {
-            Instantiate(_tripleShot, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
-        }
-        else
-        {
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
-        }
+            if (_isTripleShotActive == true)
+            {
+                Instantiate(_tripleShot, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+                _ammoRemaining -= 1;
+                _uiManager.UpdateAmmoCount(_ammoRemaining);
+            }
+            else
+            {
+                Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+                _ammoRemaining -= 1;
+                _uiManager.UpdateAmmoCount(_ammoRemaining);
+            }
 
-        _playerSoundEffects.clip = _laserShot;
+            _playerSoundEffects.clip = _laserShot;
 
-        _playerSoundEffects.Play();
+            _playerSoundEffects.Play();
+        }
     }
 
     public void Damage()
