@@ -811,6 +811,7 @@ MonoBehaviour:
   _fireRate: 0.15
   _nextFire: 0
   _lives: 3
+  _shieldLives: 3
   _laserPrefab: {fileID: 8878470051595277873, guid: bf14b632083c1054daf6893cde59bd5f,
     type: 3}
   _tripleShot: {fileID: 878020182058909936, guid: be2fba5fb84a491468da287ec1148120,

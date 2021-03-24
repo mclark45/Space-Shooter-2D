@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     private float _nextFire = -1;
     [SerializeField]
     private int _lives = 3;
+    [SerializeField]
+    private int _shieldLives = 3;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -39,6 +41,8 @@ public class Player : MonoBehaviour
     private UIManager _uiManager;
 
     private SpawnManager _spawnManager;
+
+    private SpriteRenderer _shieldVisuals;
 
     private bool _isTripleShotActive = false;
     private bool _isSpeedPowerUpActive = false;
@@ -60,6 +64,12 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _playerSoundEffects = GetComponent<AudioSource>();
+        _shieldVisuals = _playerShield.GetComponent<SpriteRenderer>();
+
+        if (_shieldVisuals == null)
+        {
+            Debug.LogError("Sprite Renderer is Null");
+        }
 
         if (_spawnManager == null)
         {
@@ -113,7 +123,7 @@ public class Player : MonoBehaviour
         {
             _speed = 10f;
         }
-        else
+        else if (_isSpeedPowerUpActive == false)
         {
             _speed = 5f;
         }
@@ -142,9 +152,24 @@ public class Player : MonoBehaviour
 
         if (_isShieldPowerUpActive == true)
         {
-            _isShieldPowerUpActive = false;
-            _playerShield.SetActive(false);
-            return;
+            if (_shieldLives == 3)
+            {
+                _shieldLives -= 1;
+                _shieldVisuals.color = Color.green;
+                return;
+            }
+            else if (_shieldLives == 2)
+            {
+                _shieldLives -= 1;
+                _shieldVisuals.color = Color.red;
+                return;
+            }
+            else if (_shieldLives == 1)
+            {
+                _isShieldPowerUpActive = false;
+                _playerShield.SetActive(false);
+                return;
+            }
         }
 
             _lives--;
@@ -197,6 +222,8 @@ public class Player : MonoBehaviour
         _playerSoundEffects.Play();
         _isShieldPowerUpActive = true;
         _playerShield.SetActive(true);
+        _shieldVisuals.color = Color.white;
+        _shieldLives = 3;
     }
 
     IEnumerator TripleShotTime()
