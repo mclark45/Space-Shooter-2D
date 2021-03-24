@@ -235,6 +235,24 @@ public class Player : MonoBehaviour
         _shieldLives = 3;
     }
 
+    public void CollectedAmmoPowerUp()
+    {
+        _playerSoundEffects.clip = _powerupSoundEffect;
+        _playerSoundEffects.Play();
+
+        if (_ammoRemaining <= 12)
+        {
+            _ammoRemaining += 3;
+            _uiManager.UpdateAmmoCount(_ammoRemaining);
+        }
+        else
+        {
+            _ammoRemaining = 15;
+            _uiManager.UpdateAmmoCount(_ammoRemaining);
+        }
+        
+    }
+
     IEnumerator TripleShotTime()
     {
         yield return new WaitForSeconds(5.0f);
