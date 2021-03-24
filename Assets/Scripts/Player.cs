@@ -108,6 +108,15 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(_rightBoundary, transform.position.y, 0);
         }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _speed = 10f;
+        }
+        else
+        {
+            _speed = 5f;
+        }
     }
 
     void FireLaser()
