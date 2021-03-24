@@ -250,7 +250,29 @@ public class Player : MonoBehaviour
             _ammoRemaining = 15;
             _uiManager.UpdateAmmoCount(_ammoRemaining);
         }
-        
+    }
+
+    public void CollectedHealthPowerup()
+    {
+        _playerSoundEffects.clip = _powerupSoundEffect;
+        _playerSoundEffects.Play();
+
+        if (_lives == 3)
+        {
+            return;
+        }
+        else if (_lives == 2)
+        {
+            _rightEngine.SetActive(false);
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+        }
+        else if (_lives == 1)
+        {
+            _leftEngine.SetActive(false);
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+        }
     }
 
     IEnumerator TripleShotTime()
