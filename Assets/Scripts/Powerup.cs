@@ -47,6 +47,9 @@ public class Powerup : MonoBehaviour
                     case 4:
                         player.CollectedHealthPowerup();
                         break;
+                    case 5:
+                        player.HomingMissleActive();
+                        break;
                     default:
                         Debug.Log("Default Value");
                         break;

@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleShot;
     [SerializeField]
+    private GameObject _homingMissle;
+    [SerializeField]
     private GameObject _playerShield;
     [SerializeField]
     private int _score;
@@ -49,6 +51,7 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     private bool _isSpeedPowerUpActive = false;
     private bool _isShieldPowerUpActive = false;
+    private bool _isHomingMisslePowerUpActive = false;
 
     [SerializeField]
     private AudioClip _laserShot;
@@ -139,13 +142,19 @@ public class Player : MonoBehaviour
             if (_isTripleShotActive == true)
             {
                 Instantiate(_tripleShot, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
-                _ammoRemaining -= 1;
+                _ammoRemaining --;
+                _uiManager.UpdateAmmoCount(_ammoRemaining);
+            }
+            else if (_isHomingMisslePowerUpActive == true)
+            {
+                Instantiate(_homingMissle, transform.position + new Vector3(0, 1.5f, 0), Quaternion.identity);
+                _ammoRemaining--;
                 _uiManager.UpdateAmmoCount(_ammoRemaining);
             }
             else
             {
                 Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
-                _ammoRemaining -= 1;
+                _ammoRemaining --;
                 _uiManager.UpdateAmmoCount(_ammoRemaining);
             }
 
@@ -235,6 +244,14 @@ public class Player : MonoBehaviour
         _shieldLives = 3;
     }
 
+    public void HomingMissleActive()
+    {
+        _playerSoundEffects.clip = _powerupSoundEffect;
+        _playerSoundEffects.Play();
+        _isHomingMisslePowerUpActive = true;
+        StartCoroutine(HomingMissle());
+    }
+
     public void CollectedAmmoPowerUp()
     {
         _playerSoundEffects.clip = _powerupSoundEffect;
@@ -286,6 +303,12 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         _isSpeedPowerUpActive = false;
         _speed /= _speedMultiplyer;
+    }
+
+    IEnumerator HomingMissle()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isHomingMisslePowerUpActive = false;
     }
 
     public void Score(int points)

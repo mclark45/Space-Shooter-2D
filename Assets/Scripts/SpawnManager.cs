@@ -12,12 +12,14 @@ public class SpawnManager : MonoBehaviour
     private GameObject[] _powerUps;
 
 
+
     private bool _stopSpawning = false;
 
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUpRoutine());
+        StartCoroutine(SpawnHomingMissleRoutine());
     }
 
     IEnumerator SpawnEnemyRoutine()
@@ -43,6 +45,18 @@ public class SpawnManager : MonoBehaviour
             int randomPowerUp = Random.Range(0, 5);
             Instantiate(_powerUps[randomPowerUp], posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3.0f, 8.0f));
+        }
+    }
+
+    IEnumerator SpawnHomingMissleRoutine()
+    {
+        yield return new WaitForSeconds(15.0f);
+
+        while (_stopSpawning == false)
+        {
+            Vector3 posToSpawn = new Vector3(Random.Range(-9.5f, 9.5f), 7.0f, 0);
+            Instantiate(_powerUps[5], posToSpawn, Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(15f, 45f));
         }
     }
 
