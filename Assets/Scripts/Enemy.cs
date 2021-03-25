@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3.0f;
     [SerializeField]
     private float _canFire = -1f;
+    private int randomMove;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -20,59 +21,76 @@ public class Enemy : MonoBehaviour
     private Animator EnemyDestroyed;
     private AudioSource _explosionSoundEffect;
 
+    private bool _isActive = false;
+
 
     void Start()
     {
+
+        _isActive = false;
         _player = GameObject.Find("Player").GetComponent<Player>();
         _explosionSoundEffect = GetComponent<AudioSource>();
+        randomMove = Random.Range(0, 2);
 
         if (_player == null)
         {
             Debug.LogError("Player is Null");
         }
-        float randomX = Random.Range(-9.5f, 9.5f);
 
         if (_explosionSoundEffect == null)
         {
             Debug.LogError("Audio Source is null");
         }
 
-        transform.position = new Vector3(randomX, _topOfScreen, 0);
-
-        EnemyDestroyed = GetComponent<Animator>();
-
         if (EnemyDestroyed == null)
         {
             Debug.LogError("EnemyDestroyed is null");
         }
+
+        float randomX = Random.Range(-9.5f, 9.5f);
+        transform.position = new Vector3(randomX, _topOfScreen, 0);
+
+        EnemyDestroyed = GetComponent<Animator>();
     }
 
     void Update()
     {
         CalculateMovement();
 
-        if (Time.time > _canFire)
-        {
-            _fireRate = Random.Range(3f, 7f);
-            _canFire = Time.time + _fireRate;
-            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
-            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-            
-            for (int i = 0; i < lasers.Length; i++)
-            {
-                lasers[i].AssignEnemy();
-            }
-        }
+       if (Time.time > _canFire)
+       {
+           if (_isActive == false)
+           {
+               _fireRate = Random.Range(3f, 7f);
+               _canFire = Time.time + _fireRate;
+               GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+               Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+                
+               for (int i = 0; i < lasers.Length; i++)
+               {
+                   lasers[i].AssignEnemy();
+               }
+           }
+       }
     }
 
     void CalculateMovement()
     {
-        transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime);
+        EnemyMovement();
 
         if (transform.position.y < -5.4)
         {
             float randomX = Random.Range(-9.5f, 9.5f);
             transform.position = new Vector3(randomX, _topOfScreen, 0);
+        }
+
+        if (transform.position.x >= 11.3f)
+        {
+            transform.position = new Vector3(-11.3f, transform.position.y, 0);
+        }
+        else if (transform.position.x <= -11.3f)
+        {
+            transform.position = new Vector3(11.3f, transform.position.y, 0);
         }
     }
 
@@ -87,6 +105,7 @@ public class Enemy : MonoBehaviour
                 player.Damage();
             }
             EnemyDestroyed.SetTrigger("OnEnemyDeath");
+            _isActive = true;
             _enemySpeed = 0;
             _explosionSoundEffect.Play();
             Destroy(this.gameObject, 2.4f);
@@ -101,6 +120,7 @@ public class Enemy : MonoBehaviour
                 _player.Score(Random.Range(5, 10));
             }
             EnemyDestroyed.SetTrigger("OnEnemyDeath");
+            _isActive = true;
             _enemySpeed = 0;
             _explosionSoundEffect.Play();
             Destroy(GetComponent<Collider2D>());
@@ -108,5 +128,19 @@ public class Enemy : MonoBehaviour
             
             
         }
+    }
+
+    public void EnemyMovement()
+    {
+
+       if (randomMove == 1)
+       {
+           transform.Translate(new Vector3(-1, -1, 0) * _enemySpeed * Time.deltaTime);
+       }
+       else
+       {
+            transform.Translate(new Vector3(1, -1, 0) * _enemySpeed * Time.deltaTime);
+        }
+        
     }
 }

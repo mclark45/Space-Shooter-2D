@@ -121,7 +121,10 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > _nextThruster)
         {
-            Thrusters();
+            if (_isSpeedPowerUpActive == false)
+            {
+                Thrusters();
+            }
         }
     }
 
@@ -338,6 +341,7 @@ public class Player : MonoBehaviour
         _speed += 5;
         yield return new WaitForSeconds(5.0f);
         _speed -= 5;
+        yield return null;
     }
 
     public void Score(int points)
