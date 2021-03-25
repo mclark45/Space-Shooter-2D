@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5.0f;
-    private float _speedMultiplyer = 2.0f;
+    private float _speedMultiplyer = 15.0f;
     [SerializeField]
     private float _upperBoundary = 0;
     [SerializeField]
@@ -21,11 +21,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _nextFire = -1;
     [SerializeField]
+    private float _thrusterReady = 10f;
+    [SerializeField]
+    private float _nextThruster = -1;
+    [SerializeField]
     private int _lives = 3;
     [SerializeField]
     private int _shieldLives = 3;
     [SerializeField]
     private int _ammoRemaining = 15;
+
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -43,6 +48,8 @@ public class Player : MonoBehaviour
     private GameObject _leftEngine;
 
     private UIManager _uiManager;
+
+    private ThrusterBar _thrusterBar;
 
     private SpawnManager _spawnManager;
 
@@ -68,6 +75,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _thrusterBar = GameObject.Find("Canvas").GetComponent<ThrusterBar>();
         _playerSoundEffects = GetComponent<AudioSource>();
         _shieldVisuals = _playerShield.GetComponent<SpriteRenderer>();
 
@@ -90,9 +98,14 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Audio Source is Null");
         }
+
+        if (_thrusterBar == null)
+        {
+            Debug.LogError("Thruster Bar is Null");
+        }
     }
 
-    
+
     void Update()
     {
         CalculateMovement();
@@ -101,6 +114,18 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > _nextThruster)
+        {
+            Thrusters();
+        }
+    }
+
+    public void Thrusters()
+    {
+        _nextThruster = Time.time + _thrusterReady;
+        _thrusterBar.UseThruster(1);
+        StartCoroutine(Timer());
     }
 
     void CalculateMovement()
@@ -111,7 +136,7 @@ public class Player : MonoBehaviour
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
         transform.Translate(direction * _speed * Time.deltaTime);
- 
+
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, _lowerBoundary, _upperBoundary), 0);
 
@@ -122,15 +147,6 @@ public class Player : MonoBehaviour
         else if (transform.position.x <= _leftBoundary)
         {
             transform.position = new Vector3(_rightBoundary, transform.position.y, 0);
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            _speed = 10f;
-        }
-        else if (_isSpeedPowerUpActive == false)
-        {
-            _speed = 5f;
         }
     }
 
@@ -230,7 +246,7 @@ public class Player : MonoBehaviour
         _playerSoundEffects.clip = _powerupSoundEffect;
         _playerSoundEffects.Play();
         _isSpeedPowerUpActive = true;
-        _speed *= _speedMultiplyer;
+        _speed = _speedMultiplyer;
         StartCoroutine(SpeedPowerUp());
     }
 
@@ -302,13 +318,20 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5.0f);
         _isSpeedPowerUpActive = false;
-        _speed /= _speedMultiplyer;
+        _speed = 5f;
     }
 
     IEnumerator HomingMissle()
     {
         yield return new WaitForSeconds(5.0f);
         _isHomingMisslePowerUpActive = false;
+    }
+
+    IEnumerator Timer()
+    {
+        _speed += 5;
+        yield return new WaitForSeconds(5.0f);
+        _speed -= 5;
     }
 
     public void Score(int points)
