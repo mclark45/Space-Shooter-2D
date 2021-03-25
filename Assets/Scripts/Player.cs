@@ -55,6 +55,8 @@ public class Player : MonoBehaviour
 
     private SpriteRenderer _shieldVisuals;
 
+
+
     private bool _isTripleShotActive = false;
     private bool _isSpeedPowerUpActive = false;
     private bool _isShieldPowerUpActive = false;
@@ -68,6 +70,8 @@ public class Player : MonoBehaviour
     private AudioClip _powerupSoundEffect;
 
     private AudioSource _playerSoundEffects;
+
+    public CameraControl cameraControl;
 
 
     void Start()
@@ -183,6 +187,8 @@ public class Player : MonoBehaviour
     public void Damage()
     {
         _playerSoundEffects.clip = _explosionSoundEffect;
+        cameraControl.StartCameraShake();
+        
 
         if (_isShieldPowerUpActive == true)
         {
