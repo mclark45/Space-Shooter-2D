@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
     private bool _isSpeedPowerUpActive = false;
     private bool _isShieldPowerUpActive = false;
     private bool _isHomingMisslePowerUpActive = false;
+    private bool _isDebuffPowerUpActive = false;
 
     [SerializeField]
     private AudioClip _laserShot;
@@ -121,10 +122,15 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > _nextThruster)
         {
-            if (_isSpeedPowerUpActive == false)
+            if (_isSpeedPowerUpActive == false && _isDebuffPowerUpActive == false)
             {
                 Thrusters();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+
         }
     }
 
@@ -277,6 +283,15 @@ public class Player : MonoBehaviour
         StartCoroutine(HomingMissle());
     }
 
+    public void DebuffActive()
+    {
+        _playerSoundEffects.clip = _powerupSoundEffect;
+        _playerSoundEffects.Play();
+        _isDebuffPowerUpActive = true;
+        _speed = -5.0f;
+        StartCoroutine(Debuff());
+    }
+
     public void CollectedAmmoPowerUp()
     {
         _playerSoundEffects.clip = _powerupSoundEffect;
@@ -334,6 +349,14 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5.0f);
         _isHomingMisslePowerUpActive = false;
+    }
+
+    IEnumerator Debuff()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isDebuffPowerUpActive = false;
+        _speed = 5.0f;
+
     }
 
     IEnumerator Timer()

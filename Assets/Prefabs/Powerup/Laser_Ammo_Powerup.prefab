@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 1624797638081664230}
   - component: {fileID: 9066867022215160653}
   m_Layer: 0
-  m_Name: Laser_Ammor_Powerup
-  m_TagString: Untagged
+  m_Name: Laser_Ammo_Powerup
+  m_TagString: Power Up
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speedOfPowerUp: 3
-  _powerUpID: 3
+  _powerUpID: 6
 --- !u!95 &9066867022215160653
 Animator:
   serializedVersion: 3

@@ -14,9 +14,12 @@ public class Enemy : MonoBehaviour
     private float _canFire = -1f;
     [SerializeField]
     private GameObject _enemyShield;
+
+
     private int randomMove;
     private int _shieldSpawn;
     private bool _isEnemyShieldActive = false;
+
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -60,8 +63,9 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CalculateMovement(_shieldSpawn);
+        float distanceToPlayer = Vector2.Distance(transform.position, _player.transform.position);
 
-       if (Time.time > _canFire)
+        if (Time.time > _canFire)
        {
            if (_isActive == false)
            {
@@ -77,6 +81,8 @@ public class Enemy : MonoBehaviour
            }
        }
     }
+
+
 
     void CalculateMovement(int shield)
     {
@@ -183,13 +189,14 @@ public class Enemy : MonoBehaviour
         {
             case 0:
                 transform.Translate(new Vector3(0, -1, 0) * _enemySpeed * Time.deltaTime);
-                break;
+                    break;
+                
             case 1:
                 transform.Translate(new Vector3(1, -1, 0) * _enemySpeed * Time.deltaTime);
-                break;
+                    break;
             case 2:
                 transform.Translate(new Vector3(-1, -1, 0) * _enemySpeed * Time.deltaTime);
-                break;
+                    break;
             default:
                 Debug.Log("Default Value");
                 break;

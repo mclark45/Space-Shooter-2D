@@ -22,6 +22,7 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnHomingMissleRoutine());
         StartCoroutine(SpawnHealthPowerUpRoutine());
         StartCoroutine(SpawnShieldPowerUpRoutine());
+        StartCoroutine(SpawnAmmoPowerUpRoutine());
     }
 
     IEnumerator SpawnEnemyRoutine()
@@ -46,6 +47,18 @@ public class SpawnManager : MonoBehaviour
             Vector3 posToSpawn = new Vector3(Random.Range(-9.5f, 9.5f), 7.0f, 0);
             int randomPowerUp = Random.Range(0, 3);
             Instantiate(_powerUps[randomPowerUp], posToSpawn, Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(10f, 20f));
+        }
+    }
+
+    IEnumerator SpawnAmmoPowerUpRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+
+        while (_stopSpawning == false)
+        {
+            Vector3 posToSpawn = new Vector3(Random.Range(-9.5f, 9.5f), 7.0f, 0);
+            Instantiate(_powerUps[6], posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(10f, 20f));
         }
     }

@@ -1909,10 +1909,11 @@ MonoBehaviour:
   _powerUps:
   - {fileID: 1684044434510653238, guid: 0eae00603194b0043aaed2eb29053688, type: 3}
   - {fileID: 912099611298291067, guid: a4380a2b212cc4246a9a6d157d7c1edf, type: 3}
-  - {fileID: 2276627655430760869, guid: 1eecb5ba9d1af7544831ec8373bc007b, type: 3}
+  - {fileID: 8060477093082108142, guid: d8e24affe8b84334c9bc9db53bcb6e7e, type: 3}
   - {fileID: 975618053197345443, guid: 991f643b1377db14f8c5c2820c05c94f, type: 3}
   - {fileID: 4717379600841386246, guid: dbf42bd496d318847916b16720c62f09, type: 3}
   - {fileID: 4843873220174827899, guid: 3db67ea606594f548b9d85fed2190859, type: 3}
+  - {fileID: 2276627655430760869, guid: 1eecb5ba9d1af7544831ec8373bc007b, type: 3}
 --- !u!1 &1235303925
 GameObject:
   m_ObjectHideFlags: 0

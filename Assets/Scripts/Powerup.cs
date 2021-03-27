@@ -7,7 +7,7 @@ public class Powerup : MonoBehaviour
 
     [SerializeField]
     private float _speedOfPowerUp = 3.0f;
-    [SerializeField]  //0 = Triple Shot 1 = Speed 2 = Shields
+    [SerializeField]  //0 = Triple Shot 1 = Speed 2 = Debuff 3 Shield 4 = Health 5 = Homing Missile 6 = Ammo
     private int _powerUpID;
 
 
@@ -39,16 +39,19 @@ public class Powerup : MonoBehaviour
                         player.SpeedPowerUpActive();
                         break;
                     case 2:
-                        player.ShieldPowerUpActive();
+                        player.DebuffActive();
                         break;
                     case 3:
-                        player.CollectedAmmoPowerUp();
+                        player.ShieldPowerUpActive();
                         break;
                     case 4:
                         player.CollectedHealthPowerup();
                         break;
                     case 5:
                         player.HomingMissleActive();
+                        break;
+                    case 6:
+                        player.CollectedAmmoPowerUp();
                         break;
                     default:
                         Debug.Log("Default Value");
