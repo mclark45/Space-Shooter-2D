@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 628547861828903034}
   m_Layer: 0
   m_Name: Enemy_Laser
-  m_TagString: Untagged
+  m_TagString: EnemyLaser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +114,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser_Right
       objectReference: {fileID: 0}
+    - target: {fileID: 8878470051595277873, guid: bf14b632083c1054daf6893cde59bd5f,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyLaser
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf14b632083c1054daf6893cde59bd5f, type: 3}
 --- !u!4 &6268017388230468633 stripped
@@ -208,6 +213,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser_Left
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878470051595277873, guid: bf14b632083c1054daf6893cde59bd5f,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyLaser
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf14b632083c1054daf6893cde59bd5f, type: 3}

@@ -12,7 +12,7 @@ public class HomingMissle : MonoBehaviour
     [SerializeField]
     private GameObject _explosion;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -29,7 +29,7 @@ public class HomingMissle : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    
     void FixedUpdate()
     {
         if (target == null)
@@ -43,15 +43,19 @@ public class HomingMissle : MonoBehaviour
             float rotateAmount = Vector3.Cross(direction, transform.up).z;
             rb.angularVelocity = -rotateAmount * rotateSpeed;
             rb.velocity = transform.up * speed;
-            Destroy(this.gameObject, 5.0f);
         }
+
+        Destroy(this.gameObject, 5.0f);
     }
 
-    void OnTriggerEnter2D()
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        GameObject explosionEffect = Instantiate(_explosion, transform.position, transform.rotation);
-        Destroy(explosionEffect, 2.4f);
-        Destroy(this.gameObject);
+        if (collider.gameObject.CompareTag("Enemy"))
+        {
+            GameObject explosionEffect = Instantiate(_explosion, transform.position, transform.rotation);
+            Destroy(explosionEffect, 2.4f);
+            Destroy(this.gameObject);
+        }
     }
 
 }

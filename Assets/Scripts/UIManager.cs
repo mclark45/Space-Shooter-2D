@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateAmmoCount(int ammoCount)
     {
-        _ammoCount.text = "Ammo: " + ammoCount;
+        _ammoCount.text = "Ammo: " + ammoCount + "/15";
     }
 
     public void UpdateLives(int currentLives)

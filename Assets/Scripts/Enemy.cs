@@ -30,7 +30,8 @@ public class Enemy : MonoBehaviour
         _isActive = false;
         _player = GameObject.Find("Player").GetComponent<Player>();
         _explosionSoundEffect = GetComponent<AudioSource>();
-        randomMove = Random.Range(0, 2);
+        EnemyDestroyed = GetComponent<Animator>();
+        randomMove = Random.Range(0, 3);
 
         if (_player == null)
         {
@@ -49,8 +50,6 @@ public class Enemy : MonoBehaviour
 
         float randomX = Random.Range(-9.5f, 9.5f);
         transform.position = new Vector3(randomX, _topOfScreen, 0);
-
-        EnemyDestroyed = GetComponent<Animator>();
     }
 
     void Update()
@@ -124,23 +123,32 @@ public class Enemy : MonoBehaviour
             _enemySpeed = 0;
             _explosionSoundEffect.Play();
             Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject, 2.4f);
-            
-            
+            transform.gameObject.tag = "EnemyDestroyed";
+            Destroy(this.gameObject, 2.4f);  
+        }
+
+        if (other.CompareTag("EnemyLaser"))
+        {
+            return;
         }
     }
 
     public void EnemyMovement()
     {
-
-       if (randomMove == 1)
-       {
-           transform.Translate(new Vector3(-1, -1, 0) * _enemySpeed * Time.deltaTime);
-       }
-       else
-       {
-            transform.Translate(new Vector3(1, -1, 0) * _enemySpeed * Time.deltaTime);
+        switch (randomMove)
+        {
+            case 0:
+                transform.Translate(new Vector3(0, -1, 0) * _enemySpeed * Time.deltaTime);
+                break;
+            case 1:
+                transform.Translate(new Vector3(1, -1, 0) * _enemySpeed * Time.deltaTime);
+                break;
+            case 2:
+                transform.Translate(new Vector3(-1, -1, 0) * _enemySpeed * Time.deltaTime);
+                break;
+            default:
+                Debug.Log("Default Value");
+                break;
         }
-        
     }
 }
