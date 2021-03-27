@@ -12,7 +12,11 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3.0f;
     [SerializeField]
     private float _canFire = -1f;
+    [SerializeField]
+    private GameObject _enemyShield;
     private int randomMove;
+    private int _shieldSpawn;
+    private bool _isEnemyShieldActive = false;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -21,7 +25,7 @@ public class Enemy : MonoBehaviour
     private Animator EnemyDestroyed;
     private AudioSource _explosionSoundEffect;
 
-    private bool _isActive = false;
+    private bool _isActive = false;  // Enemy death animation
 
 
     void Start()
@@ -32,6 +36,7 @@ public class Enemy : MonoBehaviour
         _explosionSoundEffect = GetComponent<AudioSource>();
         EnemyDestroyed = GetComponent<Animator>();
         randomMove = Random.Range(0, 3);
+        _shieldSpawn = Random.Range(0, 2);
 
         if (_player == null)
         {
@@ -54,7 +59,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        CalculateMovement();
+        CalculateMovement(_shieldSpawn);
 
        if (Time.time > _canFire)
        {
@@ -73,9 +78,20 @@ public class Enemy : MonoBehaviour
        }
     }
 
-    void CalculateMovement()
+    void CalculateMovement(int shield)
     {
         EnemyMovement();
+
+        if (shield == 1)
+        {
+            _enemyShield.SetActive(true);
+            _isEnemyShieldActive = true;
+        }
+        else
+        {
+            _enemyShield.SetActive(false);
+            _isEnemyShieldActive = false;
+        }
 
         if (transform.position.y < -5.4)
         {
@@ -101,13 +117,27 @@ public class Enemy : MonoBehaviour
 
             if (player != null)
             {
-                player.Damage();
+                if (_isEnemyShieldActive == false)
+                { 
+                    player.Damage();
+                }
             }
-            EnemyDestroyed.SetTrigger("OnEnemyDeath");
-            _isActive = true;
-            _enemySpeed = 0;
-            _explosionSoundEffect.Play();
-            Destroy(this.gameObject, 2.4f);
+
+            if (_isEnemyShieldActive == true)
+            {
+                _shieldSpawn = 0;
+                _isEnemyShieldActive = false;
+                _enemyShield.SetActive(false);
+                _explosionSoundEffect.Play();
+            }
+            else
+            {
+                EnemyDestroyed.SetTrigger("OnEnemyDeath");
+                _isActive = true;
+                _enemySpeed = 0;
+                _explosionSoundEffect.Play();
+                Destroy(this.gameObject, 2.4f);
+            }
         }
 
 
@@ -116,15 +146,29 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             if (_player != null)
             {
-                _player.Score(Random.Range(5, 10));
+                if (_isEnemyShieldActive == false)
+                {
+                    _player.Score(Random.Range(5, 10));
+                }
+
+                if (_isEnemyShieldActive == true)
+                {
+                    _shieldSpawn = 0;
+                    _isEnemyShieldActive = false;
+                    _enemyShield.SetActive(false);
+                    _explosionSoundEffect.Play();
+                }
+                else
+                {
+                    EnemyDestroyed.SetTrigger("OnEnemyDeath");
+                    _isActive = true;
+                    _enemySpeed = 0;
+                    _explosionSoundEffect.Play();
+                    Destroy(GetComponent<Collider2D>());
+                    transform.gameObject.tag = "EnemyDestroyed";
+                    Destroy(this.gameObject, 2.4f);
+                }
             }
-            EnemyDestroyed.SetTrigger("OnEnemyDeath");
-            _isActive = true;
-            _enemySpeed = 0;
-            _explosionSoundEffect.Play();
-            Destroy(GetComponent<Collider2D>());
-            transform.gameObject.tag = "EnemyDestroyed";
-            Destroy(this.gameObject, 2.4f);  
         }
 
         if (other.CompareTag("EnemyLaser"))
