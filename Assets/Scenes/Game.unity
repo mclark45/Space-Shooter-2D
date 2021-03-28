@@ -852,8 +852,8 @@ MonoBehaviour:
   _lowerBoundary: -3.8
   _leftBoundary: -11.3
   _rightBoundary: 11.3
-  _fireRate: 0.15
-  _nextFire: 0
+  _fireRate: 1
+  _nextFire: -1
   _thrusterReady: 10
   _nextThruster: -1
   _lives: 3
@@ -861,9 +861,9 @@ MonoBehaviour:
   _ammoRemaining: 15
   _laserPrefab: {fileID: 8878470051595277873, guid: bf14b632083c1054daf6893cde59bd5f,
     type: 3}
-  _tripleShot: {fileID: 878020182058909936, guid: be2fba5fb84a491468da287ec1148120,
+  _tripleShot: {fileID: 1684044434510653238, guid: 0eae00603194b0043aaed2eb29053688,
     type: 3}
-  _homingMissle: {fileID: 4028898584931084203, guid: d3f67bfb94a933f4eac78f21a4428485,
+  _homingMissle: {fileID: 4843873220174827899, guid: 3db67ea606594f548b9d85fed2190859,
     type: 3}
   _playerShield: {fileID: 1769143436}
   _score: 0
@@ -1064,6 +1064,86 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &589230462
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 589230465}
+  - component: {fileID: 589230464}
+  - component: {fileID: 589230463}
+  m_Layer: 5
+  m_Name: Boss_Health
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &589230463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589230462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 'Boss Lives: 5
+
+'
+--- !u!222 &589230464
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589230462}
+  m_CullTransparentMesh: 0
+--- !u!224 &589230465
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589230462}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1187207498}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 344, y: -161}
+  m_SizeDelta: {x: 92.90204, y: 14.995949}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &854577366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1814,6 +1894,7 @@ RectTransform:
   - {fileID: 1952030682}
   - {fileID: 1152001369}
   - {fileID: 1872300753}
+  - {fileID: 589230465}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1844,6 +1925,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9fe6f40efddf0b64fb68a3382b14a4db, type: 3}
   _gameOverText: {fileID: 966770177}
   _restartText: {fileID: 986119881}
+  _bossLives: {fileID: 589230463}
 --- !u!114 &1187207500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2152,7 +2234,7 @@ GameObject:
   - component: {fileID: 1872300755}
   - component: {fileID: 1872300754}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Thruster_Gauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

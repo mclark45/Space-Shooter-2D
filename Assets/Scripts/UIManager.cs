@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     private Text _gameOverText;
     [SerializeField]
     private Text _restartText;
+    [SerializeField]
+    private Text _bossLives;
 
     private GameManager _gameManager;
 
@@ -27,6 +29,7 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + 0;
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
+        _bossLives.gameObject.SetActive(false);
         
         if (_gameManager == null)
         {
@@ -55,6 +58,7 @@ public class UIManager : MonoBehaviour
         }
 
 
+
         IEnumerator flicker()
         {
             while (2 > 1)
@@ -65,6 +69,37 @@ public class UIManager : MonoBehaviour
 
                 _gameOverText.gameObject.SetActive(false);
                // _restartText.gameObject.SetActive(false);
+                yield return new WaitForSeconds(1.0f);
+            }
+        }
+    }
+
+    public void BossTextActive()
+    {
+        _bossLives.gameObject.SetActive(true);
+    }
+
+    public void UpdateBossLives(int Lives)
+    {
+        _bossLives.text = "Boss Lives: " + Lives;
+
+        if (Lives == 0)
+        {
+            _gameManager.GameOver();
+            StartCoroutine(flicker());
+        }
+
+        IEnumerator flicker()
+        {
+            while (2 > 1)
+            {
+                _gameOverText.text = "You Won!";
+                _gameOverText.gameObject.SetActive(true);
+                _restartText.gameObject.SetActive(true);
+                yield return new WaitForSeconds(1.0f);
+
+                _gameOverText.gameObject.SetActive(false);
+                // _restartText.gameObject.SetActive(false);
                 yield return new WaitForSeconds(1.0f);
             }
         }

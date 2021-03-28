@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class SpawnManager : MonoBehaviour
     private GameObject[] _powerUps;
     [SerializeField]
     private GameObject _bossEnemy;
+
+    private UIManager _uiManager;
 
 
 
@@ -29,8 +32,16 @@ public class SpawnManager : MonoBehaviour
 
     public void BossSpawnBehavior()
     {
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         if (_stopSpawning == false)
+
+            if (_uiManager == null)
+            {
+                Debug.LogError("UI manager is Null");
+            }
+
         {
+            _uiManager.BossTextActive();
             StartCoroutine(BossSpawn());
         }
     }
