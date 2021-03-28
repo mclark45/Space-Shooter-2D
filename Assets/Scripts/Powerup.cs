@@ -9,11 +9,24 @@ public class Powerup : MonoBehaviour
     private float _speedOfPowerUp = 3.0f;
     [SerializeField]  //0 = Triple Shot 1 = Speed 2 = Debuff 3 Shield 4 = Health 5 = Homing Missile 6 = Ammo
     private int _powerUpID;
+    private GameObject _player;
 
+    private void Start()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     void Update()
     {
         transform.Translate(Vector3.down * _speedOfPowerUp * Time.deltaTime);
+        if (Input.GetKey(KeyCode.C))
+        {
+            if ((transform.position - _player.transform.position).magnitude < 100)
+            {
+                Vector3 distance = _player.transform.position - transform.position;
+                transform.Translate(distance * _speedOfPowerUp * Time.deltaTime);
+            }
+        }
 
         if (transform.position.y < -5.4f)
         {
