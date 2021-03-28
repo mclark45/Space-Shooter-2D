@@ -63,7 +63,6 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CalculateMovement(_shieldSpawn);
-        float distanceToPlayer = Vector2.Distance(transform.position, _player.transform.position);
 
         if (Time.time > _canFire)
        {
@@ -190,7 +189,6 @@ public class Enemy : MonoBehaviour
             case 0:
                 transform.Translate(new Vector3(0, -1, 0) * _enemySpeed * Time.deltaTime);
                     break;
-                
             case 1:
                 transform.Translate(new Vector3(1, -1, 0) * _enemySpeed * Time.deltaTime);
                     break;

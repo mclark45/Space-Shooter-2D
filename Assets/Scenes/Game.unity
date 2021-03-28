@@ -1914,6 +1914,8 @@ MonoBehaviour:
   - {fileID: 4717379600841386246, guid: dbf42bd496d318847916b16720c62f09, type: 3}
   - {fileID: 4843873220174827899, guid: 3db67ea606594f548b9d85fed2190859, type: 3}
   - {fileID: 2276627655430760869, guid: 1eecb5ba9d1af7544831ec8373bc007b, type: 3}
+  _bossEnemy: {fileID: 1735678253490866337, guid: dffa93b5ad960294cb0515beb9ef069d,
+    type: 3}
 --- !u!1 &1235303925
 GameObject:
   m_ObjectHideFlags: 0

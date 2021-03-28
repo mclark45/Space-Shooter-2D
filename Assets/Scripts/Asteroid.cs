@@ -41,7 +41,8 @@ public class Asteroid : MonoBehaviour
             GameObject explode = Instantiate(_explosion, transform.position, Quaternion.identity);
             Destroy(explode.gameObject, 2.4f);
             Destroy(collision.gameObject);
-            _spawnManager.StartSpawning();
+           // _spawnManager.StartSpawning();
+            _spawnManager.BossSpawnBehavior();
             Destroy(this.gameObject, 0.25f);
 
             _explosionSoundEffect.Play();

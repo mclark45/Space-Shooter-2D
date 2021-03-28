@@ -35,7 +35,7 @@ public class Laser : MonoBehaviour
         }
     }
 
-    void MoveDown()
+    public void MoveDown()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 

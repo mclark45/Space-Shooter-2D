@@ -10,6 +10,8 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemyContainer;
     [SerializeField]
     private GameObject[] _powerUps;
+    [SerializeField]
+    private GameObject _bossEnemy;
 
 
 
@@ -23,6 +25,22 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnHealthPowerUpRoutine());
         StartCoroutine(SpawnShieldPowerUpRoutine());
         StartCoroutine(SpawnAmmoPowerUpRoutine());
+    }
+
+    public void BossSpawnBehavior()
+    {
+        if (_stopSpawning == false)
+        {
+            StartCoroutine(BossSpawn());
+        }
+    }
+
+    IEnumerator BossSpawn()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        Vector3 posToSpawn = new Vector3(0, 7.0f, 0);
+        Instantiate(_bossEnemy, posToSpawn, Quaternion.identity);
     }
 
     IEnumerator SpawnEnemyRoutine()
