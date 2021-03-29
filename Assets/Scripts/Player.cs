@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _rightBoundary = 11.3f;
     [SerializeField]
-    private float _fireRate = 1.0f;
+    private float _fireRate = 0.5f;
     [SerializeField]
     private float _nextFire = -1;
     [SerializeField]
@@ -126,11 +126,6 @@ public class Player : MonoBehaviour
             {
                 Thrusters();
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-
         }
     }
 

@@ -22,10 +22,13 @@ public class UIManager : MonoBehaviour
 
     private GameManager _gameManager;
 
+    private SpawnManager _spawnManager;
+
 
     void Start()
     {
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _scoreText.text = "Score: " + 0;
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
@@ -34,6 +37,11 @@ public class UIManager : MonoBehaviour
         if (_gameManager == null)
         {
             Debug.LogError("GameManager is Null");
+        }
+
+        if (_spawnManager == null)
+        {
+            Debug.LogError("Spawn Manager is Null");
         }
     }
 
@@ -86,6 +94,7 @@ public class UIManager : MonoBehaviour
         if (Lives == 0)
         {
             _gameManager.GameOver();
+            _spawnManager.OnPlayerDeath();
             StartCoroutine(flicker());
         }
 

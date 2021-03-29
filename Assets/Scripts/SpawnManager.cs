@@ -20,9 +20,10 @@ public class SpawnManager : MonoBehaviour
 
     private bool _stopSpawning = false;
 
-    public void StartSpawning()
+
+
+    public void Spawns()
     {
-        StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUpRoutine());
         StartCoroutine(SpawnHomingMissleRoutine());
         StartCoroutine(SpawnHealthPowerUpRoutine());
@@ -40,11 +41,12 @@ public class SpawnManager : MonoBehaviour
                 Debug.LogError("UI manager is Null");
             }
 
-        {
+        
             _uiManager.BossTextActive();
             StartCoroutine(BossSpawn());
-        }
+        
     }
+
 
     IEnumerator BossSpawn()
     {
@@ -57,14 +59,9 @@ public class SpawnManager : MonoBehaviour
     IEnumerator SpawnEnemyRoutine()
     {
         yield return new WaitForSeconds(3.0f);
-
-        while (_stopSpawning == false)
-        {
-            Vector3 posToSpawn = new Vector3(Random.Range(-9.5f, 9.5f), 7.0f, 0);
-            GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(5.0f);
-        }  
+        Vector3 posToSpawn = new Vector3(Random.Range(-9.5f, 9.5f), 7.0f, 0);
+        GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
+        newEnemy.transform.parent = _enemyContainer.transform;
     }
 
     IEnumerator SpawnPowerUpRoutine()

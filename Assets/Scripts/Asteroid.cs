@@ -11,10 +11,14 @@ public class Asteroid : MonoBehaviour
     private SpawnManager _spawnManager;
 
     private AudioSource _explosionSoundEffect;
+
+    [SerializeField]
+    private GameObject _waveSpawner;
     void Start()
     {
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _explosionSoundEffect = GetComponent<AudioSource>();
+        _waveSpawner.SetActive(false);
 
         if (_spawnManager == null)
         {
@@ -25,11 +29,11 @@ public class Asteroid : MonoBehaviour
         {
             Debug.LogError("Audio Source is Null");
         }
-        transform.position = new Vector3(0, 3.5f, 0);
 
+        transform.position = new Vector3(0, 3.5f, 0);
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         transform.Rotate(Vector3.forward * 15f * Time.deltaTime);
@@ -42,8 +46,8 @@ public class Asteroid : MonoBehaviour
             GameObject explode = Instantiate(_explosion, transform.position, Quaternion.identity);
             Destroy(explode.gameObject, 2.4f);
             Destroy(collision.gameObject);
-            _spawnManager.StartSpawning();
-           // _spawnManager.BossSpawnBehavior();
+            _spawnManager.Spawns();
+            _waveSpawner.SetActive(true);
             Destroy(this.gameObject, 0.25f);
 
             _explosionSoundEffect.Play();

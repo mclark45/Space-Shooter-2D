@@ -21,10 +21,10 @@ public class Powerup : MonoBehaviour
         transform.Translate(Vector3.down * _speedOfPowerUp * Time.deltaTime);
         if (Input.GetKey(KeyCode.C))
         {
-            if ((transform.position - _player.transform.position).magnitude < 100)
+            if ((transform.position - _player.transform.position).magnitude < 5)
             {
                 Vector3 distance = _player.transform.position - transform.position;
-                transform.Translate(distance * _speedOfPowerUp * Time.deltaTime);
+                transform.Translate(distance * 1.5f * Time.deltaTime);
             }
         }
 
