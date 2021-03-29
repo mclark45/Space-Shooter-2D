@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
 
 
     private int randomMove;
+    private int _randomAgro;
     private int _shieldSpawn;
     private bool _isEnemyShieldActive = false;
 
@@ -27,6 +28,7 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private Animator EnemyDestroyed;
     private AudioSource _explosionSoundEffect;
+    private SpriteRenderer _agroEnemy;
 
     private bool _isActive = false;  // Enemy death animation
 
@@ -38,8 +40,10 @@ public class Enemy : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Player>();
         _explosionSoundEffect = GetComponent<AudioSource>();
         EnemyDestroyed = GetComponent<Animator>();
+        _agroEnemy = gameObject.GetComponent<SpriteRenderer>();
         randomMove = Random.Range(0, 3);
         _shieldSpawn = Random.Range(0, 2);
+        _randomAgro = Random.Range(0, 2);
 
         if (_player == null)
         {
@@ -54,6 +58,11 @@ public class Enemy : MonoBehaviour
         if (EnemyDestroyed == null)
         {
             Debug.LogError("EnemyDestroyed is null");
+        }
+
+        if (_agroEnemy == null)
+        {
+            Debug.LogError("Sprite Renderer is Null");
         }
 
         float randomX = Random.Range(-9.5f, 9.5f);
@@ -86,6 +95,7 @@ public class Enemy : MonoBehaviour
     void CalculateMovement(int shield)
     {
         EnemyMovement();
+        EnemyAgro();
 
         if (shield == 1)
         {
@@ -198,6 +208,25 @@ public class Enemy : MonoBehaviour
             default:
                 Debug.Log("Default Value");
                 break;
+        }
+    }
+
+    public void EnemyAgro()
+    {
+        if (_randomAgro == 0)
+        {
+            Debug.Log("agro");
+            if ((transform.position - _player.transform.position).magnitude < 5)
+            {
+                Vector3 distance = _player.transform.position - transform.position;
+                transform.Translate(distance * .5f * Time.deltaTime);
+            }
+
+            _agroEnemy.color = Color.red;
+        }
+        else
+        {
+            return;
         }
     }
 }
